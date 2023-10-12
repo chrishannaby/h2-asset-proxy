@@ -14,6 +14,7 @@ import {
   type SessionStorage,
   type Session,
 } from '@shopify/remix-oxygen';
+import {getOxygenAssetsUrl} from '~/utils';
 
 /**
  * Export a fetch handler in module format.
@@ -63,6 +64,8 @@ export default {
         cartQueryFragment: CART_QUERY_FRAGMENT,
       });
 
+      const oxygenAssetsUrl = getOxygenAssetsUrl(request);
+
       /**
        * Create a Remix request handler and pass
        * Hydrogen's Storefront client to the loader context.
@@ -70,7 +73,14 @@ export default {
       const handleRequest = createRequestHandler({
         build: remixBuild,
         mode: process.env.NODE_ENV,
-        getLoadContext: () => ({session, storefront, cart, env, waitUntil}),
+        getLoadContext: () => ({
+          session,
+          storefront,
+          cart,
+          env,
+          waitUntil,
+          oxygenAssetsUrl,
+        }),
       });
 
       const response = await handleRequest(request);

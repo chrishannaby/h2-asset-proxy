@@ -17,18 +17,19 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export async function loader({context}: LoaderArgs) {
-  const {storefront} = context;
+  const {storefront, oxygenAssetsUrl} = context;
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   const featuredCollection = collections.nodes[0];
   const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
-  return defer({featuredCollection, recommendedProducts});
+  return defer({featuredCollection, recommendedProducts, oxygenAssetsUrl});
 }
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home">
+      <p>{data.oxygenAssetsUrl}</p>
       <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
