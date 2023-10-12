@@ -106,6 +106,20 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              @font-face {
+                font-family: Inter;
+                src: url(/.cdn/fonts/Inter-Regular.woff2);
+                font-display: swap;
+              }
+
+              body {
+                font-family: Inter, sans-serif;
+              }`,
+          }}
+        />
         <Meta />
         <Links />
       </head>
