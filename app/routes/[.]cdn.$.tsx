@@ -8,6 +8,13 @@ export async function loader({request, context}: LoaderArgs) {
   const proxyResponse = await fetch(proxyUrl, {
     headers: request.headers,
   });
+
+  if (!proxyResponse.ok) {
+    return new Response(proxyResponse.body, {
+      status: proxyResponse.status,
+    });
+  }
+
   return new Response(proxyResponse.body, {
     status: proxyResponse.status,
     headers: new Headers({
