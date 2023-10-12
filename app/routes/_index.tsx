@@ -29,7 +29,7 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home">
-      <p>{data.oxygenAssetsUrl}</p>
+      <p>Asset url: {data.oxygenAssetsUrl}</p>
       <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
