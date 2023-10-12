@@ -14,6 +14,7 @@ export async function loader({request, context}: LoaderArgs) {
       ...proxyResponse.headers,
       'Cache-Control': 'public, max-age=31536000',
       'Oxygen-Full-Page-Cache-Enable': 'true',
+      Vary: 'Accept-Encoding, Accept-Language',
     }),
   });
 }
