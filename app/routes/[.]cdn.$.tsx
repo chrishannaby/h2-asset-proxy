@@ -10,6 +10,10 @@ export async function loader({request, context}: LoaderArgs) {
   });
   return new Response(proxyResponse.body, {
     status: proxyResponse.status,
-    headers: new Headers(proxyResponse.headers),
+    headers: new Headers({
+      ...proxyResponse.headers,
+      'Cache-Control': 'public, max-age=31536000',
+      'Oxygen-Full-Page-Cache-Enable': 'true',
+    }),
   });
 }
