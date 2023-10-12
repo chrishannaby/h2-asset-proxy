@@ -12,7 +12,7 @@ export async function loader({request, context}: LoaderArgs) {
     status: proxyResponse.status,
     headers: new Headers({
       ...proxyResponse.headers,
-      'Cache-Control': 'public, max-age=31536000',
+      'Cache-Control': 'public, s-maxage=31536000, max-age=31536000',
       'Oxygen-Full-Page-Cache-Enable': 'true',
       Vary: 'Accept-Encoding',
     }),
