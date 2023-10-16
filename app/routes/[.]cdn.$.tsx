@@ -1,5 +1,11 @@
 import {type LoaderArgs} from '@shopify/remix-oxygen';
 
+const cacheHeaders = {
+  'Cache-Control': 'public, max-age=31536000',
+  Vary: 'Accept-Encoding',
+  'Oxygen-Full-Page-Cache-Enable': 'true',
+};
+
 export async function loader({request, context}: LoaderArgs) {
   const {oxygenAssetsUrl} = context;
   const {pathname, search} = new URL(request.url);
@@ -19,9 +25,7 @@ export async function loader({request, context}: LoaderArgs) {
     status: proxyResponse.status,
     headers: new Headers({
       ...proxyResponse.headers,
-      'Cache-Control': 'public, s-maxage=31536000, max-age=31536000',
-      'Oxygen-Full-Page-Cache-Enable': 'true',
-      Vary: 'Accept-Encoding',
+      ...cacheHeaders,
     }),
   });
 }
