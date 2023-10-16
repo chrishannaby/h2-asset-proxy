@@ -11,6 +11,9 @@ export async function loader({request, context}: LoaderArgs) {
   const {pathname, search} = new URL(request.url);
   const proxyPath = pathname.replace('/.cdn/', '');
   const proxyUrl = `${oxygenAssetsUrl}/${proxyPath}${search}`;
+
+  console.log('proxyUrl', proxyUrl);
+
   const proxyResponse = await fetch(proxyUrl, {
     headers: request.headers,
   });
