@@ -151,5 +151,5 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
 ` as const;
 
 export const headers = () => ({
-  'WWW-Authenticate': 'Basic Realm="Secure Area"',
+  'WWW-Authenticate': 'Basic realm="Secure Area"',
 });
