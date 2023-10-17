@@ -1,4 +1,4 @@
-import {defer, type LoaderArgs} from '@shopify/remix-oxygen';
+import {defer, json, type LoaderArgs} from '@shopify/remix-oxygen';
 import {
   Await,
   useLoaderData,
@@ -16,17 +16,32 @@ export const meta: V2_MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
 };
 
-export async function loader({context}: LoaderArgs) {
+const isAuthorized = (request: any) => {
+  const header = request.headers.get('Authorization');
+
+  if (!header) return false;
+};
+
+export async function loader({context, request}: LoaderArgs) {
+  if (!isAuthorized(request)) {
+    return json({authorized: false}, {status: 401});
+  }
   const {storefront, oxygenAssetsUrl} = context;
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   const featuredCollection = collections.nodes[0];
   const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
-  return defer({featuredCollection, recommendedProducts, oxygenAssetsUrl});
+  return defer({
+    authorized: true,
+    featuredCollection,
+    recommendedProducts,
+    oxygenAssetsUrl,
+  });
 }
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
+  if (!data.authorized) return <p>No</p>;
   return (
     <div className="home">
       <p>Asset url: {data.oxygenAssetsUrl}</p>
